@@ -20,7 +20,7 @@ function populateLines(){
     var line;
 
     //find all matching lines
-    while( total<128 && i<lines.length){
+    while( total<192 && i<lines.length){
         line = lines[i];
         if( line.toLowerCase().indexOf(query) != -1 ){
             matchingLines.push(line);
@@ -63,31 +63,21 @@ function init(){
     $("#input").focus();
     $("#input").blur(function(){$("#input").focus()});
     $("#input").keyup(populateLines);
-    $("#form").submit(function(){py_post(chosen);});
+    $("#form").submit(function(){
+        $('body').tween({
+            opacity:{
+                start: 100,
+                stop: 2,
+                time: 0,
+                duration: .15,
+                units: '%',
+                effect: 'easeInOut',
+                onStop: function(){py_post(chosen)}
+            }
+        });
+        $.play();
+    });
 
-    //play intro animation
-//    $('.launcher').tween({
-//        top:{
-//            start: -40,
-//            stop: 20,
-//            time: 0,
-//            duration: .25,
-//            units: 'px',
-//            effect: 'easeInOut',
-//            onStop: function(){
-//                $('.container').tween({
-//                    opacity:{
-//                        start: 0,
-//                        stop: 100,
-//                        time: 0,
-//                        duration: .15,
-//                        units: '%',
-//                        effect: 'easeInOut'
-//                    }
-//                });
-//            }
-//        }
-//    });
     $('body').tween({
         opacity:{
             start: 0,
