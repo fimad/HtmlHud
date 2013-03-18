@@ -16,21 +16,38 @@ function populateLines(){
     var total = 0;
     var i = 0;
     var divs = "";
+    var matchingLines = [];
+    var line;
 
-    chosen = "";
+    //find all matching lines
     while( total<128 && i<lines.length){
         line = lines[i];
         if( line.toLowerCase().indexOf(query) != -1 ){
-            if( total == 0 ){
-                divs += '<div class="line chosen">'+line+'</div>';
-                chosen = line;
-            }else{
-                divs += '<div class="line">'+line+'</div>';
-            }
+            matchingLines.push(line);
             total++;
         }
         i++;
     }
+
+    //sort the matching elements by length
+    matchingLines.sort(function(a, b){
+        if( a.length==b.length ){
+            return a.localeCompare(b);
+        }else{
+            return a.length - b.length;
+        }
+    });
+    chosen = query;
+    for( i=0; i<matchingLines.length; i++ ){
+        line = matchingLines[i];
+        if( i == 0 ){
+            divs += '<div class="line chosen">'+line+'</div>';
+            chosen = line;
+        }else{
+            divs += '<div class="line">'+line+'</div>';
+        }
+    }
+
     $('.container')
         .empty()
         .append(divs);
